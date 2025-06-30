@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Renford Sterling - Iniciar Sesión</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #000000;
+            background-image: radial-gradient(circle at 20% 80%, rgba(20, 20, 20, 0.8) 0%, transparent 50%),
+                              radial-gradient(circle at 80% 20%, rgba(30, 30, 30, 0.8) 0%, transparent 50%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .login-container {
+            background: rgba(26, 26, 26, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(64, 64, 80, 0.3);
+            border-radius: 8px;
+            padding: 3rem 2.5rem;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+        
+        .logo-container {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .logo-image {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1rem auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .logo-text {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: #FFFFFF;
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        
+        .login-subtitle {
+            color: #A0A0A0;
+            font-size: 1rem;
+            font-weight: 400;
+            margin-bottom: 2rem;
+        }
+        
+        .input-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #A0A0A0;
+        }
+        
+        .input-group input {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            background: rgba(48, 48, 64, 0.3);
+            border: 2px solid rgba(48, 48, 64, 0.5);
+            border-radius: 4px;
+            color: #FFFFFF;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .input-group input::placeholder {
+            color: #707070;
+        }
+        
+        .input-group input:focus {
+            outline: none;
+            background: rgba(48, 48, 64, 0.6);
+        }
+        
+        .input-group input[type="email"]:focus {
+            border-color: #3B82F6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        
+        .input-group input[type="password"]:focus {
+            border-color: #FFA500;
+            box-shadow: 0 0 0 3px rgba(255, 165, 0, 0.1);
+        }
+        
+        .input-icon {
+            position: absolute;
+            left: 1rem;
+            top: 2.25rem;
+            color: #A0A0A0;
+            font-size: 1rem;
+        }
+        
+        .login-button {
+            width: 100%;
+            padding: 1rem;
+            background: #00E600;
+            color: #000000;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .login-button:hover {
+            background: #00CC00;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 230, 0, 0.3);
+        }
+        
+        .login-button:active {
+            transform: translateY(0);
+        }
+        
+        .login-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .forgot-password {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .forgot-password a {
+            color: #9932CC;
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .forgot-password a:hover {
+            color: #B347D9;
+        }
+        
+        .error-message {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #FCA5A5;
+            padding: 0.75rem 1rem;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            margin-top: 1rem;
+            display: none;
+        }
+        
+        .success-message {
+            background: rgba(0, 230, 0, 0.1);
+            border: 1px solid rgba(0, 230, 0, 0.3);
+            color: #90EE90;
+            padding: 0.75rem 1rem;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            margin-top: 1rem;
+            display: none;
+        }
+        
+        .loading-spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid transparent;
+            border-top: 2px solid #000000;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 0.5rem;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .account-links {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(64, 64, 80, 0.3);
+            margin-top: 1.5rem;
+        }
+        
+        .account-links p {
+            color: #A0A0A0;
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+        
+        .account-links a {
+            color: #9932CC;
+            text-decoration: none;
+            font-weight: 500;
+            margin: 0 0.5rem;
+            transition: color 0.3s ease;
+        }
+        
+        .account-links a:hover {
+            color: #B347D9;
+        }
+        
+        .risk-warning {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.9);
+            color: #606060;
+            font-size: 0.75rem;
+            padding: 0.5rem 1rem;
+            text-align: center;
+            border-top: 1px solid rgba(64, 64, 80, 0.3);
+        }
+        
+        @media (max-width: 480px) {
+            .login-container {
+                margin: 1rem;
+                padding: 2rem 1.5rem;
+            }
+            
+            .risk-warning {
+                position: relative;
+                margin-top: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="logo-container">
+            <div class="logo-image">
+                <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="80" height="80" rx="12" fill="black"/>
+                    <path d="M40 20L60 40L40 60L20 40L40 20Z" fill="white"/>
+                    <path d="M40 30L50 40L40 50L30 40L40 30Z" fill="black"/>
+                </svg>
+            </div>
+            <div class="logo-text">Renford Sterling</div>
+            <div class="login-subtitle">Inicia sesión en tu área de cliente segura</div>
+        </div>
+        
+        <form id="loginForm">
+            <div class="input-group">
+                <label for="email">
+                    <i class="fas fa-envelope mr-2"></i>Email
+                </label>
+                <div class="relative">
+                    <i class="fas fa-envelope input-icon"></i>
+                    <input type="email" id="email" placeholder="Email" required>
+                </div>
+            </div>
+            
+            <div class="input-group">
+                <label for="password">
+                    <i class="fas fa-lock mr-2"></i>Password
+                </label>
+                <div class="relative">
+                    <i class="fas fa-lock input-icon"></i>
+                    <input type="password" id="password" placeholder="Password" required>
+                </div>
+            </div>
+            
+            <button type="submit" class="login-button" id="loginBtn">
+                <div class="loading-spinner" id="loadingSpinner"></div>
+                <span id="loginBtnText">LOGIN</span>
+            </button>
+            
+            <div class="forgot-password">
+                <a href="#" onclick="alert('Contacta al administrador para recuperar tu contraseña.')">Forgot Password?</a>
+            </div>
+            
+            <div id="errorMessage" class="error-message"></div>
+            <div id="successMessage" class="success-message"></div>
+        </form>
+        
+        <div class="account-links">
+            <p>Don't have an account?</p>
+            <a href="#" onclick="alert('Contacta al administrador para crear una cuenta.')">Open a Demo Account</a> |
+            <a href="#" onclick="alert('Contacta al administrador para crear una cuenta.')">Open a Real Account</a>
+        </div>
+    </div>
+    
+    <div class="risk-warning">
+        Risk warning: Trading Derivatives carries a high level of risk to your capital and you should only trade with money you can afford to lose. Trading Derivatives may not be suitable for all investors, so please ensure that you fully understand the risks involved and seek independent advice if necessary.
+    </div>
+
+    <script>
+        // Verificar si ya está logueado al cargar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            const loginTime = localStorage.getItem('loginTime');
+            
+            if (isLoggedIn && loginTime) {
+                const sessionDuration = (new Date() - new Date(loginTime)) / (1000 * 60 * 60);
+                if (sessionDuration <= 24) { // 24 horas de sesión válida
+                    window.location.href = "dashboard.html";
+                } else {
+                    // Sesión expirada - limpiar
+                    localStorage.removeItem('isLoggedIn');
+                    localStorage.removeItem('userEmail');
+                    localStorage.removeItem('loginTime');
+                }
+            }
+        });
+
+        document.getElementById("loginForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById("email").value.trim();
+            const password = document.getElementById("password").value;
+            const errorMessage = document.getElementById("errorMessage");
+            const successMessage = document.getElementById("successMessage");
+            const loginBtn = document.getElementById("loginBtn");
+            const loginBtnText = document.getElementById("loginBtnText");
+            const loadingSpinner = document.getElementById("loadingSpinner");
+
+            // Ocultar mensajes previos
+            errorMessage.style.display = "none";
+            successMessage.style.display = "none";
+
+            // Mostrar estado de carga
+            loginBtn.disabled = true;
+            loadingSpinner.style.display = "inline-block";
+            loginBtnText.textContent = "LOGGING IN...";
+
+            // Credenciales permitidas
+            const allowedCredentials = {
+                "holaagrupofinanciero@gmail.com": "5432",
+                "mifranco@gmail.com": "5432"
+            };
+
+            // Simular delay de autenticación
+            setTimeout(() => {
+                if (allowedCredentials[email] && allowedCredentials[email] === password) {
+                    // Inicio de sesión exitoso
+                    successMessage.textContent = "Login successful! Redirecting...";
+                    successMessage.style.display = "block";
+                    
+                    // Guardar estado de sesión
+                    localStorage.setItem('isLoggedIn', 'true');
+                    localStorage.setItem('userEmail', email);
+                    localStorage.setItem('loginTime', new Date().toISOString());
+                    
+                    // Redirigir después de un breve delay
+                    setTimeout(() => {
+                        window.location.href = "dashboard.html";
+                    }, 1500);
+                } else {
+                    // Credenciales inválidas
+                    errorMessage.textContent = "Invalid email or password. Please check your credentials.";
+                    errorMessage.style.display = "block";
+                    
+                    // Resetear botón
+                    loginBtn.disabled = false;
+                    loadingSpinner.style.display = "none";
+                    loginBtnText.textContent = "LOGIN";
+                }
+            }, 1000);
+        });
+
+        // Manejar Enter en los campos de entrada
+        document.getElementById("email").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                document.getElementById("password").focus();
+            }
+        });
+
+        document.getElementById("password").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                document.getElementById("loginForm").dispatchEvent(new Event('submit'));
+            }
+        });
+    </script>
+</body>
+</html>
